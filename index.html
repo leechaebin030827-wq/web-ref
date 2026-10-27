@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#f6f7f3" />
+<title>Motion Index — Interactive Web References</title>
+<meta name="description" content="인터랙티브 웹, 모션 그래픽, SVG, 타이포그래피, WebGL, 애니메이션 라이브러리와 데모를 모은 독립 레퍼런스 인덱스." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Motion Index — Interactive Web References" />
+<meta property="og:description" content="60 curated references across 7 disciplines: libraries, tools, and experiments for the moving web." />
+<meta property="og:locale" content="ko_KR" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231a1d1a'/%3E%3Ccircle cx='20' cy='32' r='9' fill='%23d9fa54'/%3E%3Ccircle cx='42' cy='32' r='9' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --background:#f6f7f3; --card:#fcfdfa; --text:#191d1a; --muted:#737a72; --border:#dce2d9;
+  --accent:#daf868; --accent-text:#1d2813; --tinted:#eef1e9; --shadow:0 12px 24px rgba(24,36,19,.07);
+  --body-font:'Space Grotesk','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --mono:'DM Mono',ui-monospace,monospace;
+}
+html.dark {
+  --background:#171a17; --card:#20241f; --text:#f1f3ed; --muted:#a3aaa2; --border:#3d443c;
+  --accent:#daf868; --accent-text:#172110; --tinted:#252b24; --shadow:0 12px 26px rgba(0,0,0,.27);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:108px; }
+body { margin:0; background:var(--background); color:var(--text); font-family:var(--body-font); -webkit-font-smoothing:antialiased; transition:background .2s,color .2s; }
+a { color:inherit; text-decoration:none; }
+button,input { font:inherit; }
+button { cursor:pointer; }
+button:focus-visible,a:focus-visible,input:focus-visible { outline:2px solid var(--text);outline-offset:3px; }
+::selection { background:var(--accent);color:var(--accent-text); }
+.container { width:min(1500px,calc(100% - 96px));margin:0 auto; }
+.mono { font-family:var(--mono); }
+.site-header { height:77px;position:sticky;top:0;background:color-mix(in srgb,var(--background) 92%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:30;border-bottom:1px solid var(--border); }
+.header-inner { display:flex;align-items:center;justify-content:space-between;gap:16px;height:100%; }
+.brand { display:inline-flex;align-items:center;gap:13px;min-width:0; }
+.brand-mark { width:30px;height:30px;display:grid;grid-template-columns:repeat(2,1fr);gap:3px;transform:rotate(-14deg);transition:transform .5s cubic-bezier(.18,.68,.24,1.3); }
+.brand:hover .brand-mark { transform:rotate(180deg); }
+.brand-mark i { background:var(--text);border-radius:100%; }
+.brand-mark i:nth-child(2) { border:2px solid var(--text);background:transparent; }
+.brand-mark i:nth-child(3) { background:var(--accent);border:1px solid var(--text); }
+.brand-name { font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:-.045em;white-space:nowrap; }
+.header-right { display:flex;align-items:center;gap:10px; }
+.header-meta { color:var(--muted);font-size:10px;letter-spacing:.06em;margin-right:16px;white-space:nowrap; }
+.icon-btn,.header-action { height:35px;border:1px solid var(--border);background:transparent;color:var(--text);display:inline-flex;align-items:center;justify-content:center;border-radius:40px;transition:background .15s,border .15s; }
+.icon-btn { width:35px; }
+.icon-btn:hover,.header-action:hover { background:var(--tinted);border-color:var(--muted); }
+.header-action { padding:0 15px;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:.02em;white-space:nowrap; }
+.action-icon {font-size:15px;line-height:1;}
+.header-action .saved-count { color:var(--muted); }
+.hero {position:relative;display:grid;grid-template-columns: minmax(0,1fr) 270px;align-items:end;gap:30px;padding:87px 0 83px;min-height:485px;overflow:hidden;}
+.hero-overline {display:flex;align-items:center;gap:13px;color:var(--muted);font:11px var(--mono);text-transform:uppercase;letter-spacing:.075em;margin-bottom:29px;}
+.overline-dash {width:33px;height:1px;background:var(--text);}
+h1 {font-size:clamp(80px,12.1vw,194px);font-weight:700;letter-spacing:-.105em;line-height:.78;margin:0 0 34px;text-transform:uppercase;white-space:nowrap;}
+h1 .word-index {display:block;}
+h1 .period {color:var(--accent);-webkit-text-stroke:1px var(--text);}
+.hero-caption {display:flex;align-items:baseline;gap:30px;flex-wrap:wrap;}
+.hero-caption p {margin:0;font-size:clamp(14px,1.5vw,19px);line-height:1.55;max-width:630px;letter-spacing:-.025em;}
+.hero-caption .caption-no {font-family:var(--mono);font-size:11px;color:var(--muted);}
+.hero-aside {display:flex;flex-direction:column;gap:30px;align-items:flex-end;padding-bottom:3px;}
+.hero-orbit {width:238px;height:238px;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;position:relative;overflow:hidden;}
+.hero-orbit::before {content:'';position:absolute;inset:30px;border:1px solid var(--border);border-radius:50%;}
+.hero-orbit::after {content:'';position:absolute;inset:66px;border:1px solid var(--border);border-radius:50%;}
+.orbit-center {height:44px;width:44px;border:2px solid var(--text);border-radius:50%;z-index:1;}
+.orbit-cross {position:absolute;inset:0;z-index:0;}
+.orbit-cross::before {content:'';position:absolute;left:50%;top:0;bottom:0;border-left:1px solid var(--border);}
+.orbit-cross::after {content:'';position:absolute;top:50%;left:0;right:0;border-top:1px solid var(--border);}
+.orbit-path {position:absolute;inset:7px;animation:spin 17s linear infinite;}
+.orbit-node {position:absolute;left:calc(50% - 10px);top:-9px;width:20px;height:20px;border-radius:50%;background:var(--accent);border:1px solid var(--text);}
+@keyframes spin {to{transform:rotate(360deg)}}
+.hero-side-label {width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;font:10px var(--mono);text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;}
+.hero-side-label strong {font-weight:500;color:var(--text);}
+.overview-bar {display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:19px 0;margin-bottom:34px;}
+.overview-left {display:flex;gap:31px;align-items:center;flex-wrap:wrap;}
+.overview-stat {display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;}
+.overview-stat strong {font-size:17px;line-height:1;font-weight:500;letter-spacing:-.04em;}
+.overview-stat span {color:var(--muted);}
+.overview-right {font:10px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.controls {padding:21px 0 35px;border-bottom:1px solid var(--border);position:relative;}
+.control-top {display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:22px;}
+.search-field {display:flex;align-items:center;gap:12px;border:1px solid var(--border);border-radius:9px;background:var(--card);height:53px;padding:0 17px;width:min(100%,680px);transition:border .2s,box-shadow .2s;}
+.search-field:focus-within {border-color:var(--text);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent);}
+.search-field svg {color:var(--muted);flex:0 0 auto;}
+.search-field input {border:0;outline:0;background:transparent;color:var(--text);width:100%;font-size:14px;min-width:0;}
+.search-field input::placeholder {color:var(--muted);opacity:1;}
+.search-shortcut {font:10px var(--mono);border:1px solid var(--border);padding:5px 8px;border-radius:4px;color:var(--muted);white-space:nowrap;}
+.clear-search {display:none;align-items:center;justify-content:center;width:25px;height:25px;border:0;background:var(--tinted);border-radius:50%;color:var(--text);}
+.clear-search.visible {display:flex;}
+.controls-info {font:11px var(--mono);color:var(--muted);white-space:nowrap;}
+.controls-info strong {color:var(--text);font-size:14px;}
+.filters {display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.filter-pill {min-height:36px;border:1px solid var(--border);background:transparent;color:var(--text);padding:0 14px;border-radius:28px;display:flex;align-items:center;gap:11px;font:11px var(--mono);transition:background .15s,border-color .15s,transform .15s;}
+.filter-pill:hover {background:var(--tinted);transform:translateY(-1px);}
+.filter-pill[aria-pressed="true"] {background:var(--text);color:var(--background);border-color:var(--text);}
+.filter-pill[aria-pressed="true"] .filter-count {color:var(--accent);}
+.filter-count {color:var(--muted);font-size:10px;}
+.main-layout {display:grid;grid-template-columns:210px minmax(0,1fr);gap:38px;padding-top:65px;}
+.sidebar {align-self:stretch;min-width:0;}
+.sidebar-sticky {position:sticky;top:110px;padding:0 23px 25px 0;border-right:1px solid var(--border);}
+.sidebar-eyebrow {font:10px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:24px;}
+.side-link {display:flex;align-items:baseline;gap:12px;font-size:11px;font-weight:500;letter-spacing:-.015em;padding:12px 0;color:var(--muted);line-height:1.3;transition:color .15s;}
+.side-link:hover,.side-link.active {color:var(--text);}
+.side-link.active .side-num {color:var(--text);}
+.side-num {font:10px var(--mono);color:var(--muted);}
+.sidebar-bottom {font:10px/1.8 var(--mono);border-top:1px solid var(--border);padding-top:20px;margin-top:25px;color:var(--muted);}
+.resource-content {min-width:0;}
+.category-section {margin-bottom:105px;scroll-margin-top:120px;}
+.section-heading {display:grid;grid-template-columns:62px minmax(0,1fr) auto;align-items:start;gap:18px;padding-bottom:29px;border-bottom:1px solid var(--border);margin-bottom:22px;}
+.section-index {font-size:35px;font-family:var(--mono);letter-spacing:-.09em;line-height:1.25;}
+.section-index-dot {color:#9cb86b;}
+.section-title-wrap h2 {font-size:clamp(29px,3.25vw,51px);line-height:1.05;letter-spacing:-.065em;font-weight:600;margin:0 0 7px;}
+.section-ko {font-size:11px;color:var(--text);font-weight:500;letter-spacing:-.01em;margin-bottom:15px;}
+.section-desc {font-size:12px;color:var(--muted);margin:0;letter-spacing:-.015em;line-height:1.6;}
+.section-count {font:10px var(--mono);color:var(--muted);padding-top:11px;white-space:nowrap;}
+.card-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.resource-card {border:1px solid var(--border);background:var(--card);border-radius:12px;min-width:0;min-height:241px;display:flex;flex-direction:column;padding:20px;position:relative;overflow:hidden;transition:transform .2s cubic-bezier(.2,.6,.1,1),box-shadow .2s,border-color .2s,background .2s;}
+.resource-card:hover {border-color:#99b661;transform:translateY(-3px);box-shadow:var(--shadow);}
+.category-section[data-category-section="essentials"] .resource-card {min-height:260px;}
+.category-section[data-category-section="essentials"] .resource-card:first-child {background:var(--accent);color:var(--accent-text);border-color:color-mix(in srgb,var(--text) 32%,transparent);}
+.category-section[data-category-section="essentials"] .resource-card:first-child .card-domain,
+.category-section[data-category-section="essentials"] .resource-card:first-child .card-type,
+.category-section[data-category-section="essentials"] .resource-card:first-child .card-desc,
+.category-section[data-category-section="essentials"] .resource-card:first-child .tag {color:var(--accent-text);}
+.category-section[data-category-section="essentials"] .resource-card:first-child .tag {border-color:rgba(0,0,0,.25);}
+.category-section[data-category-section="essentials"] .resource-card:first-child .save-button {color:var(--accent-text);}
+.category-section[data-category-section="essentials"] .resource-card:first-child .card-bottom,
+.category-section[data-category-section="essentials"] .resource-card:first-child .extra-links {border-color:rgba(0,0,0,.25);}
+.card-top {display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:17px;}
+.card-type {display:flex;align-items:center;gap:7px;font:10px var(--mono);color:var(--muted);white-space:nowrap;}
+.type-symbol {font-size:14px;line-height:1;}
+.save-button {width:26px;height:26px;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;border-radius:50%;transition:transform .18s,color .18s;}
+.save-button:hover {transform:scale(1.15);color:var(--text);}
+.save-button[aria-pressed="true"] {color:var(--text);}
+.save-button[aria-pressed="true"] svg {fill:var(--text);}
+.category-section[data-category-section="essentials"] .resource-card:first-child .save-button[aria-pressed="true"] svg {fill:var(--accent-text);}
+.card-main-link {display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.card-title {font-size:clamp(18px,1.65vw,24px);line-height:1.18;font-weight:600;letter-spacing:-.055em;overflow-wrap:anywhere;}
+.card-main-link:hover .card-title {text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;}
+.outbound-arrow {font-family:var(--mono);font-size:20px;font-weight:400;line-height:1;flex:0 0 auto;transition:transform .2s;}
+.card-main-link:hover .outbound-arrow {transform:translate(3px,-3px);}
+.card-desc {margin:13px 0 17px;font-size:12px;line-height:1.65;letter-spacing:-.012em;color:var(--muted);word-break:keep-all;}
+.card-tags {display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;margin-bottom:19px;}
+.tag {font:9px var(--mono);border:1px solid var(--border);border-radius:20px;padding:5px 8px;color:var(--muted);white-space:nowrap;}
+.card-bottom {border-top:1px solid var(--border);padding-top:12px;display:flex;align-items:center;justify-content:space-between;min-width:0;}
+.card-domain {font:10px var(--mono);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.extra-links {display:flex;flex-wrap:wrap;gap:12px;border-top:1px dashed var(--border);margin-top:13px;padding-top:12px;}
+.extra-link {font:10px var(--mono);color:var(--text);white-space:nowrap;}
+.extra-link:hover {text-decoration:underline;text-underline-offset:3px;}
+.extra-link span {color:var(--muted);}
+.empty-state {display:none;text-align:center;padding:95px 12px 140px;}
+.empty-state h3 {margin:0 0 9px;letter-spacing:-.04em;font-size:34px;}
+.empty-state p {color:var(--muted);font-size:13px;margin:0 0 22px;}
+.empty-state button {border:1px solid var(--text);background:var(--text);color:var(--background);border-radius:6px;padding:12px 18px;font:11px var(--mono);}
+.site-footer {border-top:1px solid var(--border);margin-top:5px;padding:42px 0 50px;}
+.footer-inner {display:flex;justify-content:space-between;align-items:flex-end;gap:22px;}
+.footer-title {font-size:29px;letter-spacing:-.075em;font-weight:700;line-height:1;}
+.footer-desc {font-size:11px;color:var(--muted);line-height:1.7;margin:13px 0 0;max-width:550px;word-break:keep-all;}
+.footer-right {font:10px/1.9 var(--mono);color:var(--muted);text-align:right;white-space:nowrap;}
+.toast {position:fixed;bottom:26px;left:50%;transform:translate(-50%,14px);border-radius:8px;background:var(--text);color:var(--background);padding:13px 18px;font:11px var(--mono);z-index:55;opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility .2s;box-shadow:var(--shadow);white-space:nowrap;}
+.toast.visible {opacity:1;visibility:visible;transform:translate(-50%,0);}
+.skip-link {position:absolute;left:5px;top:-80px;padding:12px;background:var(--accent);z-index:99;color:var(--accent-text);}
+.skip-link:focus {top:5px;}
+[hidden] {display:none !important;}
+@media (max-width:1250px) {
+ .container {width:calc(100% - 68px);}
+ .card-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+ .hero {grid-template-columns:1fr 200px;}
+ .hero-orbit {width:195px;height:195px;}
+ .main-layout {grid-template-columns:180px minmax(0,1fr);gap:29px;}
+ .sidebar-sticky {padding-right:16px;}
+}
+@media (max-width:860px) {
+ .site-header {height:68px;}
+ .container {width:calc(100% - 42px);}
+ .header-meta {display:none;}
+ .hero {padding:62px 0 50px;min-height:0;grid-template-columns:minmax(0,1fr) 135px;gap:4px;}
+ h1 {font-size:clamp(75px,13vw,110px);}
+ .hero-orbit {width:128px;height:128px;}
+ .hero-orbit::before {inset:21px;}
+ .hero-orbit::after {inset:44px;}
+ .orbit-center {width:22px;height:22px;}
+ .orbit-path {inset:7px;}
+ .orbit-node {width:12px;height:12px;left:calc(50% - 6px);top:-8px;}
+ .main-layout {display:block;padding-top:48px;}
+ .sidebar {display:none;}
+ .section-heading {grid-template-columns:56px minmax(0,1fr) auto;gap:13px;}
+ .category-section {margin-bottom:72px;}
+ .footer-inner {align-items:start;}
+}
+@media (max-width:590px) {
+ .container {width:calc(100% - 36px);}
+ .brand-name {font-size:12px;}
+ .header-right {gap:7px;}
+ .header-action {font-size:10px;padding:0 10px;}
+ .header-action.copy-action {width:35px;padding:0;font-size:0;flex:0 0 auto;}
+ .header-action.copy-action .action-icon {font-size:18px;}
+ .hero {display:block;padding:54px 0 42px;}
+ .hero-overline {font-size:9px;margin-bottom:30px;}
+ h1 {font-size:clamp(76px,18.6vw,120px);margin-bottom:27px;}
+ .hero-caption {display:block;}
+ .hero-caption .caption-no {display:block;margin-bottom:7px;}
+ .hero-caption p {font-size:14px;max-width:365px;}
+ .hero-aside {display:none;}
+ .overview-bar {padding:16px 0 15px;margin-bottom:21px;}
+ .overview-left {gap:15px;}
+ .overview-stat {font-size:9px;gap:4px;}
+ .overview-stat strong {font-size:16px;}
+ .overview-right {display:none;}
+ .control-top {display:block;margin-bottom:17px;}
+ .search-field {width:100%;}
+ .controls-info {margin-top:11px;font-size:10px;}
+ .filters {flex-wrap:nowrap;overflow-x:auto;padding-bottom:3px;scrollbar-width:none;margin-right:-18px;padding-right:18px;}
+ .filters::-webkit-scrollbar {display:none;}
+ .filter-pill {flex:0 0 auto;}
+ .main-layout {padding-top:42px;}
+ .section-heading {grid-template-columns:37px minmax(0,1fr);gap:11px;margin-bottom:15px;padding-bottom:23px;}
+ .section-index {font-size:25px;line-height:1.35;}
+ .section-title-wrap h2 {font-size:31px;}
+ .section-desc {font-size:11px;}
+ .section-count {grid-column:2;padding-top:0;}
+ .card-grid {grid-template-columns:1fr;gap:10px;}
+ .resource-card,.category-section[data-category-section="essentials"] .resource-card {min-height:221px;padding:19px;}
+ .card-title {font-size:23px;}
+ .category-section {margin-bottom:68px;}
+ .footer-inner {display:block;}
+ .footer-right {text-align:left;margin-top:23px;}
+ .site-footer {padding:36px 0 45px;}
+}
+@media (prefers-reduced-motion:reduce) {
+ *,*::before,*::after {animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important;}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 이동</a>
+<header class="site-header">
+ <div class="container header-inner">
+  <a href="#top" class="brand" aria-label="Motion Index 맨 위로"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-name">MOTION INDEX <span aria-hidden="true">↗</span></span></a>
+  <div class="header-right"><span class="header-meta mono">WEB INTERACTION ARCHIVE / 2026</span><button id="copy-links" class="header-action copy-action" type="button" aria-label="현재 보이는 레퍼런스 링크 복사" title="링크 복사"><span class="action-icon" aria-hidden="true">⧉</span> COPY LINKS</button><button id="saved-filter" class="header-action" type="button" aria-pressed="false"><span aria-hidden="true">☆</span> SAVED <span class="saved-count" id="saved-count">00</span></button><button id="theme-toggle" class="icon-btn" type="button" aria-label="다크 모드 전환" title="화면 테마 바꾸기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 1 1-10.5-10.5A7 7 0 0 0 20.5 14Z"/></svg></button></div>
+ </div>
+</header>
+<main id="main">
+ <div class="container" id="top">
+  <section class="hero" aria-labelledby="hero-title">
+   <div class="hero-main"><div class="hero-overline"><span class="overline-dash" aria-hidden="true"></span> A COLLECTION OF THINGS THAT MOVE</div><h1 id="hero-title">MOTION<span class="word-index">INDEX<span class="period">.</span></span></h1><div class="hero-caption"><span class="caption-no">[ WHAT'S INSIDE ]</span><p>인터랙티브 웹을 위한 라이브러리, 제작 도구, 실험적인 모션 데모를 한곳에 모았습니다.</p></div></div>
+   <div class="hero-aside" aria-hidden="true"><div class="hero-orbit"><div class="orbit-cross"></div><span class="orbit-center"></span><div class="orbit-path"><span class="orbit-node"></span></div></div><div class="hero-side-label"><span>INTERACTIVE WEB</span><strong>ARCHIVE 001</strong></div></div>
+  </section>
+  <div class="overview-bar"><div class="overview-left"><div class="overview-stat"><strong>60</strong><span>RESOURCES</span></div><div class="overview-stat"><strong>07</strong><span>CATEGORIES</span></div><div class="overview-stat"><strong>01</strong><span>COLLECTION</span></div></div><span class="overview-right">EXPLORE · EXPERIMENT · MAKE</span></div>
+  <div class="controls" role="search" aria-label="레퍼런스 검색 및 필터"><div class="control-top"><div class="search-field"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.1"/><path d="m16.4 16.4 5 5"/></svg><input id="search" type="search" autocomplete="off" spellcheck="false" aria-label="레퍼런스 검색" placeholder="이름, 기능, 키워드로 검색..." /><button class="clear-search" id="clear-search" type="button" aria-label="검색어 지우기">×</button><span class="search-shortcut" id="search-shortcut" aria-hidden="true">/</span></div><div class="controls-info"><strong id="result-count">60</strong> / 60 REFERENCES</div></div><div class="filters" role="group" aria-label="카테고리 선택"><button class="filter-pill" type="button" data-filter="all" aria-pressed="true"><span class="filter-name">All references</span> <span class="filter-count">60</span></button><button class="filter-pill" type="button" data-filter="essentials" aria-pressed="false"><span class="filter-name">Core</span> <span class="filter-count">06</span></button>
+<button class="filter-pill" type="button" data-filter="svg" aria-pressed="false"><span class="filter-name">SVG</span> <span class="filter-count">10</span></button>
+<button class="filter-pill" type="button" data-filter="type" aria-pressed="false"><span class="filter-name">Type</span> <span class="filter-count">08</span></button>
+<button class="filter-pill" type="button" data-filter="interaction" aria-pressed="false"><span class="filter-name">UI</span> <span class="filter-count">07</span></button>
+<button class="filter-pill" type="button" data-filter="webgl" aria-pressed="false"><span class="filter-name">WebGL</span> <span class="filter-count">11</span></button>
+<button class="filter-pill" type="button" data-filter="timeline" aria-pressed="false"><span class="filter-name">Motion</span> <span class="filter-count">06</span></button>
+<button class="filter-pill" type="button" data-filter="demos" aria-pressed="false"><span class="filter-name">Demos</span> <span class="filter-count">12</span></button></div></div>
+  <div class="main-layout"><aside class="sidebar" aria-label="분류별 바로가기"><div class="sidebar-sticky"><div class="sidebar-eyebrow">Index / 001—007</div><a class="side-link" href="#essentials" data-section="essentials"><span class="side-num">01</span><span>Core Libraries</span></a>
+<a class="side-link" href="#svg" data-section="svg"><span class="side-num">02</span><span>SVG &amp; Shape</span></a>
+<a class="side-link" href="#type" data-section="type"><span class="side-num">03</span><span>Kinetic Typography</span></a>
+<a class="side-link" href="#interaction" data-section="interaction"><span class="side-num">04</span><span>Micro-Interactions</span></a>
+<a class="side-link" href="#webgl" data-section="webgl"><span class="side-num">05</span><span>WebGL &amp; Generative</span></a>
+<a class="side-link" href="#timeline" data-section="timeline"><span class="side-num">06</span><span>Timeline &amp; Export</span></a>
+<a class="side-link" href="#demos" data-section="demos"><span class="side-num">07</span><span>Demos &amp; Experiments</span></a><div class="sidebar-bottom">CURATED WEB RESOURCES<br/>OPEN IN A NEW TAB ↗</div></div></aside><div class="resource-content" id="resources"><section class="category-section" id="essentials" data-category-section="essentials" aria-labelledby="heading-essentials">
+ <div class="section-heading"><div class="section-index">01<span class="section-index-dot">.</span></div><div class="section-title-wrap"><h2 id="heading-essentials">Core Libraries</h2><div class="section-ko">핵심 라이브러리</div><p class="section-desc">웹 애니메이션을 시작하기 위한 대표적인 엔진과 툴킷.</p></div><span class="section-count">06 REFERENCES</span></div>
+ <div class="card-grid"><article class="resource-card" data-id="essentials-01" data-category="essentials" data-search="anime.js dom · svg · 텍스트 모션과 타임라인을 하나로 구성하는 javascript 애니메이션 엔진. library svg timeline https://animejs.com/ core libraries 핵심 라이브러리">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Library</span><button type="button" class="save-button" data-save="essentials-01" aria-label="Anime.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://animejs.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">Anime.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">DOM · SVG · 텍스트 모션과 타임라인을 하나로 구성하는 JavaScript 애니메이션 엔진.</p>
+ <div class="card-tags"><span class="tag">SVG</span><span class="tag">Timeline</span></div>
+ <div class="card-bottom"><span class="card-domain">animejs.com</span></div>
+ <div class="extra-links"><a class="extra-link" href="https://github.com/juliangarnier/anime" target="_blank" rel="noopener noreferrer" aria-label="Anime.js GitHub">GitHub <span aria-hidden="true">↗</span></a><a class="extra-link" href="https://animejs.com/documentation/svg/" target="_blank" rel="noopener noreferrer" aria-label="Anime.js SVG Docs">SVG Docs <span aria-hidden="true">↗</span></a><a class="extra-link" href="https://animejs.com/documentation/text/splittext/" target="_blank" rel="noopener noreferrer" aria-label="Anime.js Split Text">Split Text <span aria-hidden="true">↗</span></a></div>
+ </article><article class="resource-card" data-id="essentials-02" data-category="essentials" data-search="gsap 정교한 시퀀싱과 타이밍, 스크롤 및 svg 모션을 위한 애니메이션 툴킷. library timeline scroll https://gsap.com/ core libraries 핵심 라이브러리">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Library</span><button type="button" class="save-button" data-save="essentials-02" aria-label="GSAP 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://gsap.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">GSAP</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">정교한 시퀀싱과 타이밍, 스크롤 및 SVG 모션을 위한 애니메이션 툴킷.</p>
+ <div class="card-tags"><span class="tag">Timeline</span><span class="tag">Scroll</span></div>
+ <div class="card-bottom"><span class="card-domain">gsap.com</span></div>
+ <div class="extra-links"><a class="extra-link" href="https://github.com/greensock/GSAP" target="_blank" rel="noopener noreferrer" aria-label="GSAP GitHub">GitHub <span aria-hidden="true">↗</span></a><a class="extra-link" href="https://gsap.com/docs/v3/Plugins/" target="_blank" rel="noopener noreferrer" aria-label="GSAP Plugins">Plugins <span aria-hidden="true">↗</span></a></div>
+ </article><article class="resource-card" data-id="essentials-03" data-category="essentials" data-search="motion 스프링, 제스처, 레이아웃 전환과 ui 애니메이션을 구현하는 javascript · react 라이브러리. library react ui https://motion.dev/ core libraries 핵심 라이브러리">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Library</span><button type="button" class="save-button" data-save="essentials-03" aria-label="Motion 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://motion.dev/" target="_blank" rel="noopener noreferrer"><span class="card-title">Motion</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">스프링, 제스처, 레이아웃 전환과 UI 애니메이션을 구현하는 JavaScript · React 라이브러리.</p>
+ <div class="card-tags"><span class="tag">React</span><span class="tag">UI</span></div>
+ <div class="card-bottom"><span class="card-domain">motion.dev</span></div>
+ <div class="extra-links"><a class="extra-link" href="https://github.com/motiondivision/motion" target="_blank" rel="noopener noreferrer" aria-label="Motion GitHub">GitHub <span aria-hidden="true">↗</span></a><a class="extra-link" href="https://motion.dev/docs/react" target="_blank" rel="noopener noreferrer" aria-label="Motion React Docs">React Docs <span aria-hidden="true">↗</span></a></div>
+ </article><article class="resource-card" data-id="essentials-04" data-category="essentials" data-search="theatre.js 브라우저에서 키프레임, 시퀀스와 커브를 시각적으로 조절하는 모션 에디터. editor timeline keyframes https://www.theatrejs.com/ core libraries 핵심 라이브러리">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◇</span> Editor</span><button type="button" class="save-button" data-save="essentials-04" aria-label="Theatre.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://www.theatrejs.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">Theatre.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">브라우저에서 키프레임, 시퀀스와 커브를 시각적으로 조절하는 모션 에디터.</p>
+ <div class="card-tags"><span class="tag">Timeline</span><span class="tag">Keyframes</span></div>
+ <div class="card-bottom"><span class="card-domain">theatrejs.com</span></div>
+ <div class="extra-links"><a class="extra-link" href="https://github.com/theatre-js/theatre" target="_blank" rel="noopener noreferrer" aria-label="Theatre.js GitHub">GitHub <span aria-hidden="true">↗</span></a></div>
+ </article><article class="resource-card" data-id="essentials-05" data-category="essentials" data-search="rive 상태 머신 기반의 인터랙티브 벡터 애니메이션을 설계하고 재생하는 도구. editor state machine vector https://rive.app/ core libraries 핵심 라이브러리">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◇</span> Editor</span><button type="button" class="save-button" data-save="essentials-05" aria-label="Rive 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://rive.app/" target="_blank" rel="noopener noreferrer"><span class="card-title">Rive</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">상태 머신 기반의 인터랙티브 벡터 애니메이션을 설계하고 재생하는 도구.</p>
+ <div class="card-tags"><span class="tag">State Machine</span><span class="tag">Vector</span></div>
+ <div class="card-bottom"><span class="card-domain">rive.app</span></div>
+ <div class="extra-links"><a class="extra-link" href="https://github.com/rive-app/rive-wasm" target="_blank" rel="noopener noreferrer" aria-label="Rive Web Runtime">Web Runtime <span aria-hidden="true">↗</span></a></div>
+ </article><article class="resource-card" data-id="essentials-06" data-category="essentials" data-search="react bits 텍스트, 커서, 형태, 호버 등의 인터랙션을 체험하고 코드를 살펴보는 컴포넌트 모음. collection react components https://reactbits.dev/ core libraries 핵심 라이브러리">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Collection</span><button type="button" class="save-button" data-save="essentials-06" aria-label="React Bits 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://reactbits.dev/" target="_blank" rel="noopener noreferrer"><span class="card-title">React Bits</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">텍스트, 커서, 형태, 호버 등의 인터랙션을 체험하고 코드를 살펴보는 컴포넌트 모음.</p>
+ <div class="card-tags"><span class="tag">React</span><span class="tag">Components</span></div>
+ <div class="card-bottom"><span class="card-domain">reactbits.dev</span></div>
+ <div class="extra-links"><a class="extra-link" href="https://github.com/DavidHDev/react-bits" target="_blank" rel="noopener noreferrer" aria-label="React Bits GitHub">GitHub <span aria-hidden="true">↗</span></a></div>
+ </article></div>
+ </section>
+<section class="category-section" id="svg" data-category-section="svg" aria-labelledby="heading-svg">
+ <div class="section-heading"><div class="section-index">02<span class="section-index-dot">.</span></div><div class="section-title-wrap"><h2 id="heading-svg">SVG &amp; Shape</h2><div class="section-ko">SVG · 형태 변형</div><p class="section-desc">경로 그리기, 벡터 모핑, 도형과 곡선의 움직임.</p></div><span class="section-count">10 REFERENCES</span></div>
+ <div class="card-grid"><article class="resource-card" data-id="svg-01" data-category="svg" data-search="flubber 서로 다른 svg 실루엣을 부드럽게 이어주는 형태 보간 라이브러리. github morphing svg https://github.com/veltman/flubber svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="svg-01" aria-label="flubber 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/veltman/flubber" target="_blank" rel="noopener noreferrer"><span class="card-title">flubber</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">서로 다른 SVG 실루엣을 부드럽게 이어주는 형태 보간 라이브러리.</p>
+ <div class="card-tags"><span class="tag">Morphing</span><span class="tag">SVG</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-02" data-category="svg" data-search="kute.js svg 경로 변형과 모핑을 직접 확인할 수 있는 데모. live demo morphing path https://thednp.github.io/kute.js/svgmorph.html svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="svg-02" aria-label="KUTE.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://thednp.github.io/kute.js/svgMorph.html" target="_blank" rel="noopener noreferrer"><span class="card-title">KUTE.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG 경로 변형과 모핑을 직접 확인할 수 있는 데모.</p>
+ <div class="card-tags"><span class="tag">Morphing</span><span class="tag">Path</span></div>
+ <div class="card-bottom"><span class="card-domain">thednp.github.io</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-03" data-category="svg" data-search="svg.js svg 요소를 만들고 조작하며 애니메이션하는 경량 javascript 라이브러리. documentation svg javascript https://svgjs.dev/ svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Documentation</span><button type="button" class="save-button" data-save="svg-03" aria-label="SVG.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://svgjs.dev/" target="_blank" rel="noopener noreferrer"><span class="card-title">SVG.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG 요소를 만들고 조작하며 애니메이션하는 경량 JavaScript 라이브러리.</p>
+ <div class="card-tags"><span class="tag">SVG</span><span class="tag">JavaScript</span></div>
+ <div class="card-bottom"><span class="card-domain">svgjs.dev</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-04" data-category="svg" data-search="vivus.js svg 스트로크가 순서대로 그려지는 라인 드로잉 효과. live demo line drawing svg https://maxwellito.github.io/vivus/ svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="svg-04" aria-label="Vivus.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://maxwellito.github.io/vivus/" target="_blank" rel="noopener noreferrer"><span class="card-title">Vivus.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG 스트로크가 순서대로 그려지는 라인 드로잉 효과.</p>
+ <div class="card-tags"><span class="tag">Line Drawing</span><span class="tag">SVG</span></div>
+ <div class="card-bottom"><span class="card-domain">maxwellito.github.io</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-05" data-category="svg" data-search="mo.js 원형 파동, 버스트, 도형 애니메이션을 위한 모션 그래픽 도구. live demo burst shape https://mojs.github.io/ svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="svg-05" aria-label="mo.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://mojs.github.io/" target="_blank" rel="noopener noreferrer"><span class="card-title">mo.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">원형 파동, 버스트, 도형 애니메이션을 위한 모션 그래픽 도구.</p>
+ <div class="card-tags"><span class="tag">Burst</span><span class="tag">Shape</span></div>
+ <div class="card-bottom"><span class="card-domain">mojs.github.io</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-06" data-category="svg" data-search="paper.js 베지어 곡선과 벡터 도형을 다루는 크리에이티브 코딩 프레임워크. examples vector canvas https://paperjs.org/examples/ svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Examples</span><button type="button" class="save-button" data-save="svg-06" aria-label="Paper.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://paperjs.org/examples/" target="_blank" rel="noopener noreferrer"><span class="card-title">Paper.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">베지어 곡선과 벡터 도형을 다루는 크리에이티브 코딩 프레임워크.</p>
+ <div class="card-tags"><span class="tag">Vector</span><span class="tag">Canvas</span></div>
+ <div class="card-bottom"><span class="card-domain">paperjs.org</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-07" data-category="svg" data-search="rough notation 손으로 그린 듯한 선, 밑줄, 원, 박스 강조 모션. live demo annotation svg https://roughnotation.com/ svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="svg-07" aria-label="Rough Notation 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://roughnotation.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">Rough Notation</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">손으로 그린 듯한 선, 밑줄, 원, 박스 강조 모션.</p>
+ <div class="card-tags"><span class="tag">Annotation</span><span class="tag">SVG</span></div>
+ <div class="card-bottom"><span class="card-domain">roughnotation.com</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-08" data-category="svg" data-search="gsap morphsvg 서로 다른 svg 패스를 자연스럽게 변환하는 gsap 플러그인. plugin morphing svg https://gsap.com/docs/v3/plugins/morphsvgplugin/ svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◇</span> Plugin</span><button type="button" class="save-button" data-save="svg-08" aria-label="GSAP MorphSVG 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://gsap.com/docs/v3/Plugins/MorphSVGPlugin/" target="_blank" rel="noopener noreferrer"><span class="card-title">GSAP MorphSVG</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">서로 다른 SVG 패스를 자연스럽게 변환하는 GSAP 플러그인.</p>
+ <div class="card-tags"><span class="tag">Morphing</span><span class="tag">SVG</span></div>
+ <div class="card-bottom"><span class="card-domain">gsap.com</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-09" data-category="svg" data-search="gsap drawsvg svg 선을 그리거나 지우는 스트로크 애니메이션 플러그인. plugin line drawing svg https://gsap.com/docs/v3/plugins/drawsvgplugin/ svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◇</span> Plugin</span><button type="button" class="save-button" data-save="svg-09" aria-label="GSAP DrawSVG 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://gsap.com/docs/v3/Plugins/DrawSVGPlugin/" target="_blank" rel="noopener noreferrer"><span class="card-title">GSAP DrawSVG</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG 선을 그리거나 지우는 스트로크 애니메이션 플러그인.</p>
+ <div class="card-tags"><span class="tag">Line Drawing</span><span class="tag">SVG</span></div>
+ <div class="card-bottom"><span class="card-domain">gsap.com</span></div>
+ 
+ </article><article class="resource-card" data-id="svg-10" data-category="svg" data-search="gsap motionpath 요소를 곡선 경로에 따라 이동시키는 모션 패스 플러그인. plugin motion path svg https://gsap.com/docs/v3/plugins/motionpathplugin/ svg &amp; shape svg · 형태 변형">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◇</span> Plugin</span><button type="button" class="save-button" data-save="svg-10" aria-label="GSAP MotionPath 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://gsap.com/docs/v3/Plugins/MotionPathPlugin/" target="_blank" rel="noopener noreferrer"><span class="card-title">GSAP MotionPath</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">요소를 곡선 경로에 따라 이동시키는 모션 패스 플러그인.</p>
+ <div class="card-tags"><span class="tag">Motion Path</span><span class="tag">SVG</span></div>
+ <div class="card-bottom"><span class="card-domain">gsap.com</span></div>
+ 
+ </article></div>
+ </section>
+<section class="category-section" id="type" data-category-section="type" aria-labelledby="heading-type">
+ <div class="section-heading"><div class="section-index">03<span class="section-index-dot">.</span></div><div class="section-title-wrap"><h2 id="heading-type">Kinetic Typography</h2><div class="section-ko">타이포그래피</div><p class="section-desc">글자 단위 분리부터 텍스트 모핑과 스크램블까지.</p></div><span class="section-count">08 REFERENCES</span></div>
+ <div class="card-grid"><article class="resource-card" data-id="type-01" data-category="type" data-search="splittype 텍스트를 글자 · 단어 · 행 단위로 분리해 개별 애니메이션 적용. github text split javascript https://github.com/lukepeavey/splittype kinetic typography 타이포그래피">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="type-01" aria-label="SplitType 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/lukePeavey/SplitType" target="_blank" rel="noopener noreferrer"><span class="card-title">SplitType</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">텍스트를 글자 · 단어 · 행 단위로 분리해 개별 애니메이션 적용.</p>
+ <div class="card-tags"><span class="tag">Text Split</span><span class="tag">JavaScript</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="type-02" data-category="type" data-search="splitting.js 글자별 css 변수를 생성해 순차적 텍스트 모션을 구성. library text split css https://splitting.js.org/ kinetic typography 타이포그래피">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Library</span><button type="button" class="save-button" data-save="type-02" aria-label="Splitting.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://splitting.js.org/" target="_blank" rel="noopener noreferrer"><span class="card-title">Splitting.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">글자별 CSS 변수를 생성해 순차적 텍스트 모션을 구성.</p>
+ <div class="card-tags"><span class="tag">Text Split</span><span class="tag">CSS</span></div>
+ <div class="card-bottom"><span class="card-domain">splitting.js.org</span></div>
+ 
+ </article><article class="resource-card" data-id="type-03" data-category="type" data-search="motion primitives 텍스트 모핑, 스크램블, 이펙트와 반응형 ui를 위한 컴포넌트. collection react text https://motion-primitives.com/ kinetic typography 타이포그래피">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Collection</span><button type="button" class="save-button" data-save="type-03" aria-label="Motion Primitives 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://motion-primitives.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">Motion Primitives</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">텍스트 모핑, 스크램블, 이펙트와 반응형 UI를 위한 컴포넌트.</p>
+ <div class="card-tags"><span class="tag">React</span><span class="tag">Text</span></div>
+ <div class="card-bottom"><span class="card-domain">motion-primitives.com</span></div>
+ <div class="extra-links"><a class="extra-link" href="https://motion-primitives.com/docs/text-effect" target="_blank" rel="noopener noreferrer" aria-label="Motion Primitives Text Effect">Text Effect <span aria-hidden="true">↗</span></a></div>
+ </article><article class="resource-card" data-id="type-04" data-category="type" data-search="torph 텍스트 내용이 바뀔 때 글자 형태가 자연스럽게 전환되는 효과. github text morph transition https://github.com/lochie/torph kinetic typography 타이포그래피">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="type-04" aria-label="Torph 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/lochie/torph" target="_blank" rel="noopener noreferrer"><span class="card-title">Torph</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">텍스트 내용이 바뀔 때 글자 형태가 자연스럽게 전환되는 효과.</p>
+ <div class="card-tags"><span class="tag">Text Morph</span><span class="tag">Transition</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ <div class="extra-links"><a class="extra-link" href="https://torph.lochie.me/" target="_blank" rel="noopener noreferrer" aria-label="Torph Live Demo">Live Demo <span aria-hidden="true">↗</span></a></div>
+ </article><article class="resource-card" data-id="type-05" data-category="type" data-search="fancy components 실험적인 텍스트 애니메이션, 커서와 마이크로 인터랙션 컴포넌트. collection typography components https://www.fancycomponents.dev/ kinetic typography 타이포그래피">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Collection</span><button type="button" class="save-button" data-save="type-05" aria-label="Fancy Components 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://www.fancycomponents.dev/" target="_blank" rel="noopener noreferrer"><span class="card-title">Fancy Components</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">실험적인 텍스트 애니메이션, 커서와 마이크로 인터랙션 컴포넌트.</p>
+ <div class="card-tags"><span class="tag">Typography</span><span class="tag">Components</span></div>
+ <div class="card-bottom"><span class="card-domain">fancycomponents.dev</span></div>
+ 
+ </article><article class="resource-card" data-id="type-06" data-category="type" data-search="ae text animator 브라우저에서 after effects 스타일의 텍스트 애니메이션 프리셋 구현. github text animation presets https://github.com/yananlee/ae-text-animator kinetic typography 타이포그래피">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="type-06" aria-label="AE Text Animator 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/YananLee/ae-text-animator" target="_blank" rel="noopener noreferrer"><span class="card-title">AE Text Animator</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">브라우저에서 After Effects 스타일의 텍스트 애니메이션 프리셋 구현.</p>
+ <div class="card-tags"><span class="tag">Text Animation</span><span class="tag">Presets</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="type-07" data-category="type" data-search="baffle.js 문자가 무작위로 섞인 뒤 원래 텍스트로 복원되는 효과. github scramble archived https://github.com/camwiegert/baffle kinetic typography 타이포그래피">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="type-07" aria-label="baffle.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/camwiegert/baffle" target="_blank" rel="noopener noreferrer"><span class="card-title">baffle.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">문자가 무작위로 섞인 뒤 원래 텍스트로 복원되는 효과.</p>
+ <div class="card-tags"><span class="tag">Scramble</span><span class="tag">Archived</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="type-08" data-category="type" data-search="textillate.js fade · flip · bounce 등 글자별 텍스트 모션 프리셋. github typography jquery https://github.com/jschr/textillate kinetic typography 타이포그래피">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="type-08" aria-label="Textillate.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/jschr/textillate" target="_blank" rel="noopener noreferrer"><span class="card-title">Textillate.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">Fade · Flip · Bounce 등 글자별 텍스트 모션 프리셋.</p>
+ <div class="card-tags"><span class="tag">Typography</span><span class="tag">jQuery</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article></div>
+ </section>
+<section class="category-section" id="interaction" data-category-section="interaction" aria-labelledby="heading-interaction">
+ <div class="section-heading"><div class="section-index">04<span class="section-index-dot">.</span></div><div class="section-title-wrap"><h2 id="heading-interaction">Micro-Interactions</h2><div class="section-ko">인터랙션 · 스크롤</div><p class="section-desc">호버, 커서, 스프링, 레이아웃과 스크롤 효과.</p></div><span class="section-count">07 REFERENCES</span></div>
+ <div class="card-grid"><article class="resource-card" data-id="interaction-01" data-category="interaction" data-search="react spring 물리 기반 스프링으로 자연스러운 ui 움직임을 만드는 라이브러리. documentation react spring https://www.react-spring.dev/ micro-interactions 인터랙션 · 스크롤">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Documentation</span><button type="button" class="save-button" data-save="interaction-01" aria-label="React Spring 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://www.react-spring.dev/" target="_blank" rel="noopener noreferrer"><span class="card-title">React Spring</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">물리 기반 스프링으로 자연스러운 UI 움직임을 만드는 라이브러리.</p>
+ <div class="card-tags"><span class="tag">React</span><span class="tag">Spring</span></div>
+ <div class="card-bottom"><span class="card-domain">react-spring.dev</span></div>
+ 
+ </article><article class="resource-card" data-id="interaction-02" data-category="interaction" data-search="shery.js 마그네틱 호버, 커서 팔로워, 디스토션 등의 인터랙션 효과. github cursor hover https://github.com/sheryianscodingschool/sheryjs micro-interactions 인터랙션 · 스크롤">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="interaction-02" aria-label="Shery.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/sheryianscodingschool/sheryjs" target="_blank" rel="noopener noreferrer"><span class="card-title">Shery.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">마그네틱 호버, 커서 팔로워, 디스토션 등의 인터랙션 효과.</p>
+ <div class="card-tags"><span class="tag">Cursor</span><span class="tag">Hover</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="interaction-03" data-category="interaction" data-search="autoanimate 요소의 추가 · 제거 · 순서 변경에 자동으로 전환 모션 적용. live demo layout transition https://auto-animate.formkit.com/ micro-interactions 인터랙션 · 스크롤">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="interaction-03" aria-label="AutoAnimate 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://auto-animate.formkit.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">AutoAnimate</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">요소의 추가 · 제거 · 순서 변경에 자동으로 전환 모션 적용.</p>
+ <div class="card-tags"><span class="tag">Layout</span><span class="tag">Transition</span></div>
+ <div class="card-bottom"><span class="card-domain">auto-animate.formkit.com</span></div>
+ 
+ </article><article class="resource-card" data-id="interaction-04" data-category="interaction" data-search="lenis 웹페이지의 부드러운 스크롤을 구현하는 라이브러리. documentation smooth scroll scroll https://lenis.dev/ micro-interactions 인터랙션 · 스크롤">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Documentation</span><button type="button" class="save-button" data-save="interaction-04" aria-label="Lenis 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://lenis.dev/" target="_blank" rel="noopener noreferrer"><span class="card-title">Lenis</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">웹페이지의 부드러운 스크롤을 구현하는 라이브러리.</p>
+ <div class="card-tags"><span class="tag">Smooth Scroll</span><span class="tag">Scroll</span></div>
+ <div class="card-bottom"><span class="card-domain">lenis.dev</span></div>
+ 
+ </article><article class="resource-card" data-id="interaction-05" data-category="interaction" data-search="locomotive scroll 스크롤과 연결된 시각 효과, 전환 및 인터랙션 도구. github scroll effects https://github.com/locomotivemtl/locomotive-scroll micro-interactions 인터랙션 · 스크롤">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="interaction-05" aria-label="Locomotive Scroll 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/locomotivemtl/locomotive-scroll" target="_blank" rel="noopener noreferrer"><span class="card-title">Locomotive Scroll</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">스크롤과 연결된 시각 효과, 전환 및 인터랙션 도구.</p>
+ <div class="card-tags"><span class="tag">Scroll</span><span class="tag">Effects</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="interaction-06" data-category="interaction" data-search="magic ui 애니메이션 텍스트, 테두리, 배경을 포함한 react ui 컴포넌트 갤러리. collection react components https://magicui.design/ micro-interactions 인터랙션 · 스크롤">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Collection</span><button type="button" class="save-button" data-save="interaction-06" aria-label="Magic UI 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://magicui.design/" target="_blank" rel="noopener noreferrer"><span class="card-title">Magic UI</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">애니메이션 텍스트, 테두리, 배경을 포함한 React UI 컴포넌트 갤러리.</p>
+ <div class="card-tags"><span class="tag">React</span><span class="tag">Components</span></div>
+ <div class="card-bottom"><span class="card-domain">magicui.design</span></div>
+ 
+ </article><article class="resource-card" data-id="interaction-07" data-category="interaction" data-search="inspira ui vue · nuxt 환경의 인터랙티브 ui 및 시각 효과 컴포넌트. collection vue ui https://inspira-ui.com/ micro-interactions 인터랙션 · 스크롤">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Collection</span><button type="button" class="save-button" data-save="interaction-07" aria-label="Inspira UI 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://inspira-ui.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">Inspira UI</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">Vue · Nuxt 환경의 인터랙티브 UI 및 시각 효과 컴포넌트.</p>
+ <div class="card-tags"><span class="tag">Vue</span><span class="tag">UI</span></div>
+ <div class="card-bottom"><span class="card-domain">inspira-ui.com</span></div>
+ 
+ </article></div>
+ </section>
+<section class="category-section" id="webgl" data-category-section="webgl" aria-labelledby="heading-webgl">
+ <div class="section-heading"><div class="section-index">05<span class="section-index-dot">.</span></div><div class="section-title-wrap"><h2 id="heading-webgl">WebGL &amp; Generative</h2><div class="section-ko">3D · 제너러티브</div><p class="section-desc">셰이더, 실시간 그래픽, 인터랙티브 비주얼.</p></div><span class="section-count">11 REFERENCES</span></div>
+ <div class="card-grid"><article class="resource-card" data-id="webgl-01" data-category="webgl" data-search="three.js 3d 장면, 재질, 조명, 카메라와 그래픽 효과를 다루는 webgl 예제 모음. examples 3d webgl https://threejs.org/examples/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Examples</span><button type="button" class="save-button" data-save="webgl-01" aria-label="Three.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://threejs.org/examples/" target="_blank" rel="noopener noreferrer"><span class="card-title">Three.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">3D 장면, 재질, 조명, 카메라와 그래픽 효과를 다루는 WebGL 예제 모음.</p>
+ <div class="card-tags"><span class="tag">3D</span><span class="tag">WebGL</span></div>
+ <div class="card-bottom"><span class="card-domain">threejs.org</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-02" data-category="webgl" data-search="react three fiber three.js를 react 컴포넌트 방식으로 구성하는 렌더러. documentation react three.js https://r3f.docs.pmnd.rs/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Documentation</span><button type="button" class="save-button" data-save="webgl-02" aria-label="React Three Fiber 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://r3f.docs.pmnd.rs/" target="_blank" rel="noopener noreferrer"><span class="card-title">React Three Fiber</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">Three.js를 React 컴포넌트 방식으로 구성하는 렌더러.</p>
+ <div class="card-tags"><span class="tag">React</span><span class="tag">Three.js</span></div>
+ <div class="card-bottom"><span class="card-domain">r3f.docs.pmnd.rs</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-03" data-category="webgl" data-search="ogl 작은 api로 3d 렌더링과 셰이더를 제어하는 webgl 라이브러리. examples webgl shader https://oframe.github.io/ogl/examples/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Examples</span><button type="button" class="save-button" data-save="webgl-03" aria-label="OGL 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://oframe.github.io/ogl/examples/" target="_blank" rel="noopener noreferrer"><span class="card-title">OGL</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">작은 API로 3D 렌더링과 셰이더를 제어하는 WebGL 라이브러리.</p>
+ <div class="card-tags"><span class="tag">WebGL</span><span class="tag">Shader</span></div>
+ <div class="card-bottom"><span class="card-domain">oframe.github.io</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-04" data-category="webgl" data-search="pixijs 고성능 2d 렌더링, 필터, 마스크와 파티클을 위한 엔진. library 2d rendering https://pixijs.com/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Library</span><button type="button" class="save-button" data-save="webgl-04" aria-label="PixiJS 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://pixijs.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">PixiJS</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">고성능 2D 렌더링, 필터, 마스크와 파티클을 위한 엔진.</p>
+ <div class="card-tags"><span class="tag">2D</span><span class="tag">Rendering</span></div>
+ <div class="card-bottom"><span class="card-domain">pixijs.com</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-05" data-category="webgl" data-search="curtains.js html 요소와 webgl 셰이더를 연결해 인터랙티브 왜곡 효과 구현. live demo webgl html https://www.curtainsjs.com/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="webgl-05" aria-label="curtains.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://www.curtainsjs.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">curtains.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">HTML 요소와 WebGL 셰이더를 연결해 인터랙티브 왜곡 효과 구현.</p>
+ <div class="card-tags"><span class="tag">WebGL</span><span class="tag">HTML</span></div>
+ <div class="card-bottom"><span class="card-domain">curtainsjs.com</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-06" data-category="webgl" data-search="gpu-curtains webgpu 기반의 그래픽 및 인터랙티브 셰이더 예제. examples webgpu shader https://martinlaxenaire.github.io/gpu-curtains/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Examples</span><button type="button" class="save-button" data-save="webgl-06" aria-label="gpu-curtains 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://martinlaxenaire.github.io/gpu-curtains/" target="_blank" rel="noopener noreferrer"><span class="card-title">gpu-curtains</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">WebGPU 기반의 그래픽 및 인터랙티브 셰이더 예제.</p>
+ <div class="card-tags"><span class="tag">WebGPU</span><span class="tag">Shader</span></div>
+ <div class="card-bottom"><span class="card-domain">martinlaxenaire.github.io</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-07" data-category="webgl" data-search="two.js svg · canvas · webgl 환경의 2d 드로잉 및 모션 라이브러리. examples 2d vector https://two.js.org/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Examples</span><button type="button" class="save-button" data-save="webgl-07" aria-label="Two.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://two.js.org/" target="_blank" rel="noopener noreferrer"><span class="card-title">Two.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG · Canvas · WebGL 환경의 2D 드로잉 및 모션 라이브러리.</p>
+ <div class="card-tags"><span class="tag">2D</span><span class="tag">Vector</span></div>
+ <div class="card-bottom"><span class="card-domain">two.js.org</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-08" data-category="webgl" data-search="p5.js 제너러티브 아트와 크리에이티브 코딩을 위한 javascript 도구. library creative coding canvas https://p5js.org/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◌</span> Library</span><button type="button" class="save-button" data-save="webgl-08" aria-label="p5.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://p5js.org/" target="_blank" rel="noopener noreferrer"><span class="card-title">p5.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">제너러티브 아트와 크리에이티브 코딩을 위한 JavaScript 도구.</p>
+ <div class="card-tags"><span class="tag">Creative Coding</span><span class="tag">Canvas</span></div>
+ <div class="card-bottom"><span class="card-domain">p5js.org</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-09" data-category="webgl" data-search="tsparticles 인터랙티브 파티클, 입자와 배경 효과를 위한 샘플 모음. live demo particles canvas https://particles.js.org/samples webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="webgl-09" aria-label="tsParticles 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://particles.js.org/samples" target="_blank" rel="noopener noreferrer"><span class="card-title">tsParticles</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">인터랙티브 파티클, 입자와 배경 효과를 위한 샘플 모음.</p>
+ <div class="card-tags"><span class="tag">Particles</span><span class="tag">Canvas</span></div>
+ <div class="card-bottom"><span class="card-domain">particles.js.org</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-10" data-category="webgl" data-search="vanta.js 실시간으로 반응하는 webgl 배경 효과 모음. live demo background webgl https://www.vantajs.com/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="webgl-10" aria-label="Vanta.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://www.vantajs.com/" target="_blank" rel="noopener noreferrer"><span class="card-title">Vanta.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">실시간으로 반응하는 WebGL 배경 효과 모음.</p>
+ <div class="card-tags"><span class="tag">Background</span><span class="tag">WebGL</span></div>
+ <div class="card-bottom"><span class="card-domain">vantajs.com</span></div>
+ 
+ </article><article class="resource-card" data-id="webgl-11" data-category="webgl" data-search="blotter.js 텍스트 표면에 셰이더 기반 왜곡과 움직임을 입히는 실험. live demo shader typography https://blotter.js.org/ webgl &amp; generative 3d · 제너러티브">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Live Demo</span><button type="button" class="save-button" data-save="webgl-11" aria-label="Blotter.js 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://blotter.js.org/" target="_blank" rel="noopener noreferrer"><span class="card-title">Blotter.js</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">텍스트 표면에 셰이더 기반 왜곡과 움직임을 입히는 실험.</p>
+ <div class="card-tags"><span class="tag">Shader</span><span class="tag">Typography</span></div>
+ <div class="card-bottom"><span class="card-domain">blotter.js.org</span></div>
+ 
+ </article></div>
+ </section>
+<section class="category-section" id="timeline" data-category-section="timeline" aria-labelledby="heading-timeline">
+ <div class="section-heading"><div class="section-index">06<span class="section-index-dot">.</span></div><div class="section-title-wrap"><h2 id="heading-timeline">Timeline &amp; Export</h2><div class="section-ko">타임라인 · 내보내기</div><p class="section-desc">키프레임 디자인, 모션 편집과 웹 애니메이션 재생.</p></div><span class="section-count">06 REFERENCES</span></div>
+ <div class="card-grid"><article class="resource-card" data-id="timeline-01" data-category="timeline" data-search="motion canvas typescript 기반 모션그래픽 장면 제작 및 실시간 미리보기. editor typescript video https://motioncanvas.io/ timeline &amp; export 타임라인 · 내보내기">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◇</span> Editor</span><button type="button" class="save-button" data-save="timeline-01" aria-label="Motion Canvas 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://motioncanvas.io/" target="_blank" rel="noopener noreferrer"><span class="card-title">Motion Canvas</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">TypeScript 기반 모션그래픽 장면 제작 및 실시간 미리보기.</p>
+ <div class="card-tags"><span class="tag">TypeScript</span><span class="tag">Video</span></div>
+ <div class="card-bottom"><span class="card-domain">motioncanvas.io</span></div>
+ 
+ </article><article class="resource-card" data-id="timeline-02" data-category="timeline" data-search="motionity 브라우저에서 그래픽 모션을 편집할 수 있는 웹 에디터. editor editor timeline https://motionity.app/ timeline &amp; export 타임라인 · 내보내기">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◇</span> Editor</span><button type="button" class="save-button" data-save="timeline-02" aria-label="Motionity 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://motionity.app/" target="_blank" rel="noopener noreferrer"><span class="card-title">Motionity</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">브라우저에서 그래픽 모션을 편집할 수 있는 웹 에디터.</p>
+ <div class="card-tags"><span class="tag">Editor</span><span class="tag">Timeline</span></div>
+ <div class="card-bottom"><span class="card-domain">motionity.app</span></div>
+ 
+ </article><article class="resource-card" data-id="timeline-03" data-category="timeline" data-search="lottie-web after effects에서 내보낸 bodymovin json 애니메이션을 웹에서 재생. github lottie after effects https://github.com/airbnb/lottie-web timeline &amp; export 타임라인 · 내보내기">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="timeline-03" aria-label="lottie-web 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/airbnb/lottie-web" target="_blank" rel="noopener noreferrer"><span class="card-title">lottie-web</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">After Effects에서 내보낸 Bodymovin JSON 애니메이션을 웹에서 재생.</p>
+ <div class="card-tags"><span class="tag">Lottie</span><span class="tag">After Effects</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="timeline-04" data-category="timeline" data-search="dotlottie web dotlottie 애니메이션 재생과 인터랙티브 상태 제어. github lottie state machine https://github.com/lottiefiles/dotlottie-web timeline &amp; export 타임라인 · 내보내기">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="timeline-04" aria-label="dotLottie Web 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/LottieFiles/dotlottie-web" target="_blank" rel="noopener noreferrer"><span class="card-title">dotLottie Web</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">dotLottie 애니메이션 재생과 인터랙티브 상태 제어.</p>
+ <div class="card-tags"><span class="tag">Lottie</span><span class="tag">State Machine</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="timeline-05" data-category="timeline" data-search="animora svg를 가져와 키프레임과 경로 애니메이션을 편집하는 실험적 도구. github svg keyframes https://github.com/itsrajverma/animora timeline &amp; export 타임라인 · 내보내기">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="timeline-05" aria-label="Animora 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/itsrajverma/animora" target="_blank" rel="noopener noreferrer"><span class="card-title">Animora</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG를 가져와 키프레임과 경로 애니메이션을 편집하는 실험적 도구.</p>
+ <div class="card-tags"><span class="tag">SVG</span><span class="tag">Keyframes</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="timeline-06" data-category="timeline" data-search="animatemo svg 애니메이션을 시각적으로 설계하는 에디터 실험. github svg editor https://github.com/zainadeel/animatemo timeline &amp; export 타임라인 · 내보내기">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="timeline-06" aria-label="AnimateMo 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/zainadeel/animatemo" target="_blank" rel="noopener noreferrer"><span class="card-title">AnimateMo</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG 애니메이션을 시각적으로 설계하는 에디터 실험.</p>
+ <div class="card-tags"><span class="tag">SVG</span><span class="tag">Editor</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article></div>
+ </section>
+<section class="category-section" id="demos" data-category-section="demos" aria-labelledby="heading-demos">
+ <div class="section-heading"><div class="section-index">07<span class="section-index-dot">.</span></div><div class="section-title-wrap"><h2 id="heading-demos">Demos &amp; Experiments</h2><div class="section-ko">오픈소스 예제</div><p class="section-desc">완성된 실험과 데모를 살펴보고 코드를 참고하기.</p></div><span class="section-count">12 REFERENCES</span></div>
+ <div class="card-grid"><article class="resource-card" data-id="demos-01" data-category="demos" data-search="codrops demos hub 인터랙티브 웹 디자인과 애니메이션 데모를 살펴보는 아카이브. gallery web experiments archive https://tympanus.net/codrops/demos/ demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">◉</span> Gallery</span><button type="button" class="save-button" data-save="demos-01" aria-label="Codrops Demos Hub 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://tympanus.net/codrops/demos/" target="_blank" rel="noopener noreferrer"><span class="card-title">Codrops Demos Hub</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">인터랙티브 웹 디자인과 애니메이션 데모를 살펴보는 아카이브.</p>
+ <div class="card-tags"><span class="tag">Web Experiments</span><span class="tag">Archive</span></div>
+ <div class="card-bottom"><span class="card-domain">tympanus.net</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-02" data-category="demos" data-search="circular text effect 원형 경로를 따라 배치되고 움직이는 텍스트 애니메이션. github svg typography https://github.com/codrops/circulartexteffect demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-02" aria-label="Circular Text Effect 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/CircularTextEffect" target="_blank" rel="noopener noreferrer"><span class="card-title">Circular Text Effect</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">원형 경로를 따라 배치되고 움직이는 텍스트 애니메이션.</p>
+ <div class="card-tags"><span class="tag">SVG</span><span class="tag">Typography</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-03" data-category="demos" data-search="gooey text hover 커서에 반응해 액체처럼 변형되는 타이포그래피 호버. github hover liquid https://github.com/codrops/gooeytexthovereffect demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-03" aria-label="Gooey Text Hover 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/GooeyTextHoverEffect" target="_blank" rel="noopener noreferrer"><span class="card-title">Gooey Text Hover</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">커서에 반응해 액체처럼 변형되는 타이포그래피 호버.</p>
+ <div class="card-tags"><span class="tag">Hover</span><span class="tag">Liquid</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-04" data-category="demos" data-search="typography motion 글자의 등장, 모임과 재배열을 다루는 키네틱 타이포그래피. github kinetic type animation https://github.com/codrops/typographymotion demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-04" aria-label="Typography Motion 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/TypographyMotion" target="_blank" rel="noopener noreferrer"><span class="card-title">Typography Motion</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">글자의 등장, 모임과 재배열을 다루는 키네틱 타이포그래피.</p>
+ <div class="card-tags"><span class="tag">Kinetic Type</span><span class="tag">Animation</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-05" data-category="demos" data-search="svg clip-path text svg 마스크로 이미지와 텍스트를 드러내는 스크롤 효과. github masking scroll https://github.com/codrops/textclipscroll demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-05" aria-label="SVG Clip-Path Text 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/TextClipScroll" target="_blank" rel="noopener noreferrer"><span class="card-title">SVG Clip-Path Text</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG 마스크로 이미지와 텍스트를 드러내는 스크롤 효과.</p>
+ <div class="card-tags"><span class="tag">Masking</span><span class="tag">Scroll</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-06" data-category="demos" data-search="on-scroll typography 스크롤 진행에 반응하는 대형 타이포그래피 모션. github scroll typography https://github.com/codrops/onscrolltypographyanimations demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-06" aria-label="On-Scroll Typography 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/OnScrollTypographyAnimations" target="_blank" rel="noopener noreferrer"><span class="card-title">On-Scroll Typography</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">스크롤 진행에 반응하는 대형 타이포그래피 모션.</p>
+ <div class="card-tags"><span class="tag">Scroll</span><span class="tag">Typography</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-07" data-category="demos" data-search="repetitive typography 문구가 반복되고 확장되는 텍스트 애니메이션. github repetition type https://github.com/codrops/repetitivetypography demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-07" aria-label="Repetitive Typography 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/RepetitiveTypography" target="_blank" rel="noopener noreferrer"><span class="card-title">Repetitive Typography</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">문구가 반복되고 확장되는 텍스트 애니메이션.</p>
+ <div class="card-tags"><span class="tag">Repetition</span><span class="tag">Type</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-08" data-category="demos" data-search="intro grid motion 인트로 그리드에서 콘텐츠로 연결되는 화면 전환. github grid transition https://github.com/codrops/introgridmotiontransition demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-08" aria-label="Intro Grid Motion 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/IntroGridMotionTransition" target="_blank" rel="noopener noreferrer"><span class="card-title">Intro Grid Motion</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">인트로 그리드에서 콘텐츠로 연결되는 화면 전환.</p>
+ <div class="card-tags"><span class="tag">Grid</span><span class="tag">Transition</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-09" data-category="demos" data-search="image expansion typography 글자와 이미지가 확장되며 전환되는 타이포그래피 실험. github image typography https://github.com/codrops/imageexpansiontypography demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-09" aria-label="Image Expansion Typography 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/ImageExpansionTypography" target="_blank" rel="noopener noreferrer"><span class="card-title">Image Expansion Typography</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">글자와 이미지가 확장되며 전환되는 타이포그래피 실험.</p>
+ <div class="card-tags"><span class="tag">Image</span><span class="tag">Typography</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-10" data-category="demos" data-search="gooey cursor svg 필터로 구현한 유기적인 커서 추적 반응. github cursor svg https://github.com/codrops/gooeycursor demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-10" aria-label="Gooey Cursor 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/GooeyCursor" target="_blank" rel="noopener noreferrer"><span class="card-title">Gooey Cursor</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">SVG 필터로 구현한 유기적인 커서 추적 반응.</p>
+ <div class="card-tags"><span class="tag">Cursor</span><span class="tag">SVG</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-11" data-category="demos" data-search="text repetition effect 큰 글자의 조각이 반복·확장되는 모션 효과. github repetition typography https://github.com/codrops/textrepetitioneffect demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-11" aria-label="Text Repetition Effect 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/TextRepetitionEffect" target="_blank" rel="noopener noreferrer"><span class="card-title">Text Repetition Effect</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">큰 글자의 조각이 반복·확장되는 모션 효과.</p>
+ <div class="card-tags"><span class="tag">Repetition</span><span class="tag">Typography</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article><article class="resource-card" data-id="demos-12" data-category="demos" data-search="rapid layers animation 다수의 레이어가 빠르게 등장하는 인트로·페이지 전환. github layers transition https://github.com/codrops/rapidlayersanimation demos &amp; experiments 오픈소스 예제">
+ <div class="card-top"><span class="card-type"><span aria-hidden="true" class="type-symbol">⌘</span> GitHub</span><button type="button" class="save-button" data-save="demos-12" aria-label="Rapid Layers Animation 북마크하기" aria-pressed="false" title="북마크"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.75 6.35.92-4.58 4.46 1.08 6.3L12 17.46l-5.65 2.97 1.08-6.3L2.85 9.67l6.35-.92L12 3Z"/></svg></button></div>
+ <a class="card-main-link" href="https://github.com/codrops/RapidLayersAnimation" target="_blank" rel="noopener noreferrer"><span class="card-title">Rapid Layers Animation</span><span class="outbound-arrow" aria-hidden="true">↗</span></a>
+ <p class="card-desc">다수의 레이어가 빠르게 등장하는 인트로·페이지 전환.</p>
+ <div class="card-tags"><span class="tag">Layers</span><span class="tag">Transition</span></div>
+ <div class="card-bottom"><span class="card-domain">github.com</span></div>
+ 
+ </article></div>
+ </section><div class="empty-state" id="empty-state"><h3>No results found.</h3><p>검색어를 바꾸거나 필터를 초기화해 보세요.</p><button id="reset-filters" type="button">RESET FILTERS ↗</button></div></div></div>
+ </div>
+</main>
+<footer class="site-footer"><div class="container footer-inner"><div><div class="footer-title">KEEP EXPLORING<span style="color:var(--accent)">.</span></div><p class="footer-desc">웹 애니메이션과 인터랙션을 위한 독립 레퍼런스 링크 모음입니다. 각 사이트와 소스코드의 권리는 해당 제작자에게 있으며, 사용 전 공식 라이선스와 최신 문서를 확인하세요.</p></div><div class="footer-right">MOTION INDEX<br/>60 RESOURCES / 07 FIELDS<br/>LINKS OPEN IN A NEW TAB ↗</div></div></footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+(()=>{
+ 'use strict';
+ const cards=[...document.querySelectorAll('.resource-card')];
+ const sections=[...document.querySelectorAll('.category-section')];
+ const nav=[...document.querySelectorAll('.side-link')];
+ const pills=[...document.querySelectorAll('[data-filter]')];
+ const search=document.querySelector('#search');
+ const resultCount=document.querySelector('#result-count');
+ const savedCount=document.querySelector('#saved-count');
+ const savedFilterBtn=document.querySelector('#saved-filter');
+ const shortcut=document.querySelector('#search-shortcut');
+ const clearButton=document.querySelector('#clear-search');
+ const emptyState=document.querySelector('#empty-state');
+ const toast=document.querySelector('#toast');
+ const themeButton=document.querySelector('#theme-toggle');
+ const storeKey='motion-index-saves-v1';
+ const themeKey='motion-index-theme-v1';
+ const safeGet=(key)=>{try{return localStorage.getItem(key)}catch(e){return null}};
+ const safeSet=(key,val)=>{try{localStorage.setItem(key,val)}catch(e){}};
+ let saved=new Set();
+ try {const stored=JSON.parse(safeGet(storeKey)||'[]'); if(Array.isArray(stored))saved=new Set(stored);} catch(e){}
+ let activeCat='all';
+ let savedOnly=false;
+ let toastTimer;
+ const cardMap=new Map(cards.map(card=>[card.dataset.id,card]));
+ const pad=n=>String(n).padStart(2,'0');
+ function announce(message){clearTimeout(toastTimer);toast.textContent=message;toast.classList.add('visible');toastTimer=setTimeout(()=>toast.classList.remove('visible'),2700);}
+ function saveUpdate(){
+  savedCount.textContent=pad(saved.size);
+  cards.forEach(card=>{const button=card.querySelector('[data-save]');const on=saved.has(card.dataset.id);button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',card.querySelector('.card-title').textContent+(on?' 북마크 해제':' 북마크하기'));});
+ }
+ function applyFilters(){
+  const raw=search.value.trim().toLocaleLowerCase();
+  const words=raw.split(/\s+/).filter(Boolean);
+  let visible=0;
+  cards.forEach(card=>{
+   const yes=(activeCat==='all'||card.dataset.category===activeCat) && (!savedOnly||saved.has(card.dataset.id)) && words.every(w=>card.dataset.search.includes(w));
+   card.hidden=!yes; if(yes)visible++;
+  });
+  sections.forEach(section=>{section.hidden=![...section.querySelectorAll('.resource-card')].some(card=>!card.hidden);});
+  resultCount.textContent=visible;
+  emptyState.style.display=visible?'none':'block';
+  clearButton.classList.toggle('visible',!!raw);
+  shortcut.style.display=raw?'none':'inline';
+  pills.forEach(pill=>pill.setAttribute('aria-pressed',String(pill.dataset.filter===activeCat)));
+  savedFilterBtn.setAttribute('aria-pressed',String(savedOnly));
+  savedFilterBtn.style.background=savedOnly?'var(--accent)':'';
+  savedFilterBtn.style.color=savedOnly?'var(--accent-text)':'';
+  nav.forEach(a=>{const section=document.querySelector('#'+a.dataset.section);a.hidden=section.hidden;});
+ }
+ document.querySelectorAll('[data-save]').forEach(button=>button.addEventListener('click',()=>{
+  const id=button.dataset.save;
+  if(saved.has(id))saved.delete(id);else saved.add(id);
+  safeSet(storeKey,JSON.stringify([...saved]));
+  saveUpdate();
+  if(savedOnly)applyFilters();
+ }));
+ pills.forEach(pill=>pill.addEventListener('click',()=>{activeCat=pill.dataset.filter;applyFilters();document.querySelector('.controls').scrollIntoView({behavior:'smooth',block:'start'});}));
+ savedFilterBtn.addEventListener('click',()=>{savedOnly=!savedOnly;applyFilters();});
+ search.addEventListener('input',applyFilters);
+ clearButton.addEventListener('click',()=>{search.value='';search.focus();applyFilters();});
+ document.querySelector('#reset-filters').addEventListener('click',()=>{activeCat='all';savedOnly=false;search.value='';applyFilters();search.focus();});
+ document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)&&!document.activeElement.isContentEditable){e.preventDefault();search.focus();}});
+ async function copy(text){
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return;}
+  const el=document.createElement('textarea');el.value=text;el.style.position='fixed';el.style.opacity='0';document.body.appendChild(el);el.select();const okay=document.execCommand('copy');el.remove();if(!okay)throw Error('Copy failed');
+ }
+ document.querySelector('#copy-links').addEventListener('click',async()=>{
+  const visible=cards.filter(card=>!card.hidden);
+  if(!visible.length){announce('복사할 레퍼런스가 없습니다');return;}
+  const lines=visible.map(card=>card.querySelector('.card-title').textContent+' — '+card.querySelector('.card-main-link').href);
+  try{await copy(lines.join('\n'));announce(pad(visible.length)+'개 링크를 복사했어요');}catch(e){announce('브라우저에서 복사를 허용해 주세요');}
+ });
+ function setTheme(mode){document.documentElement.classList.toggle('dark',mode==='dark');safeSet(themeKey,mode);themeButton.setAttribute('aria-label',mode==='dark'?'라이트 모드 전환':'다크 모드 전환');document.querySelector('meta[name="theme-color"]').content=mode==='dark'?'#171a17':'#f6f7f3';}
+ const initialTheme=safeGet(themeKey)||'light';setTheme(initialTheme);
+ themeButton.addEventListener('click',()=>setTheme(document.documentElement.classList.contains('dark')?'light':'dark'));
+ const observer=('IntersectionObserver' in window)?new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){nav.forEach(a=>a.classList.toggle('active',a.dataset.section===entry.target.id));}})},{rootMargin:'-100px 0px -65% 0px',threshold:0}):null;
+ if(observer)sections.forEach(s=>observer.observe(s));
+ saveUpdate();applyFilters();
+})();
+</script>
+</body>
+</html>
